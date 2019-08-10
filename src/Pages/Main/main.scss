@@ -9,11 +9,12 @@
   }
   .main {
     display: flex;
+    margin-bottom: 70px;
     align-items: flex-start;
-
-   
-
   }
 }
-
-
+@media screen and (max-width: 768px) {
+  .main  {
+    display: block !important;
+  }
+}

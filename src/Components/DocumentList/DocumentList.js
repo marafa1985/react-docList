@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
+import { GlobalContext } from "../../Context/GlobalContext";
 import Paging from './Paging';
 import DocumentHeader from './DocumentHeader';
 import DocumentItem from './DocumentItem';
-import { DocList } from '../../Helper/Http';
-import { FilterDocs, SortByProp } from '../../Helper/Helpers';
 import './documentList.scss';
 
 
 export class DocumentList extends Component {
+
+    static contextType = GlobalContext;
+
     constructor(props) {
         super(props)
 
         this.state = {
-            docList: [],
-            tempDocList: [],
             sortby: { column: 'date', asc: false },
             limit: 10,
             offset: 0,
@@ -21,75 +22,84 @@ export class DocumentList extends Component {
         }
     }
     componentDidMount() {
-        let initList = FilterDocs(DocList).sort(SortByProp("-" + this.state.sortby.column));
-        let tempDocList = initList.slice(this.state.offset, this.state.limit);
         this.setState({
-            docList: initList,
-            tempDocList: tempDocList,
-            pages: Math.ceil(initList.length / 10) - 1
+            pages: Math.ceil(this.context.docList.length / 10) - 1
         });
     }
     handleSort(colHeader) {
-        let { sortby, offset, limit } = this.state;
-
-        let initList = FilterDocs(DocList).sort(SortByProp((sortby.asc ? '-' : '') + colHeader));
-        let tempDocList = initList.slice(offset, limit);
-
+        let { sortby } = this.state;
+        this.context.sortDocList(colHeader, sortby.asc)
         this.setState({
-            docList: initList,
-            tempDocList: tempDocList,
+            offset: 0,
             sortby: {
                 column: colHeader,
-                asc: !this.state.sortby.asc
+                asc: !this.state.sortby.asc,
             }
         });
     }
     handlefirstLast = (position) => {
-        let arrOffset = 0
-        if (position === 'last') {
-            arrOffset = this.state.pages ;
-        }
-        let tempDocList = this.state.docList.slice(arrOffset* this.state.limit, (arrOffset* this.state.limit) + this.state.limit);
+        let arrOffset = 0;
+        let pages = Math.ceil(this.context.docList.length / 10) - 1;
 
+        if (position === 'last') {
+            arrOffset =  this.context.docList.length > 10?
+            Math.ceil(this.context.tempDocList.length / 10):
+            Math.floor(this.context.tempDocList.length / 10);
+        }
+
+        this.context.setPages(arrOffset * this.state.limit, (arrOffset * this.state.limit) + this.state.limit);
         this.setState({
-            tempDocList: tempDocList,
-            offset: arrOffset
+            offset: arrOffset,
+            pages: pages
         });
     }
     handlePagenation(setpage) {
 
-        let { offset, limit, pages } = this.state;
+        let { offset, limit } = this.state;
+        let pages = Math.ceil(this.context.docList.length / 10) - 1;
+
         if ((offset + setpage) < 0 || offset + setpage > pages) {
             setpage = 0;
         }
+
         let arrOffset = (offset + setpage) * limit
         let arrSize = arrOffset + limit;
-
-        let tempDocList = this.state.docList.slice(arrOffset, arrSize);
+        this.context.setPages(arrOffset, arrSize);
 
         this.setState({
-            tempDocList: tempDocList,
             offset: (offset + setpage)
         });
 
     }
-
     render() {
-        const { tempDocList, sortby, offset, pages } = this.state;
+        const { sortby, offset } = this.state;
         return (
-            <div className="doc-list" >
-                <ul>
-                    <DocumentHeader sortby={sortby} handleSort={this.handleSort.bind(this)} />
-                    <DocumentItem tempDocList = {tempDocList}/>
-                    <Paging
-                        handlefirstLast={this.handlefirstLast.bind(this)}
-                        handlePagenation={this.handlePagenation.bind(this)}
-                        offset={offset}
-                        pages={pages} />
-                </ul>
-            </div>
+            <GlobalContext.Consumer>
+                {
+                    (({ tempDocList }) => (
+                        <div className="doc-list" >
+                            <ul>
+                                <DocumentHeader sortby={sortby} handleSort={this.handleSort.bind(this)} />
+                                <DocumentItem tempDocList={tempDocList} />
+                                <Paging
+                                    handlefirstLast={this.handlefirstLast.bind(this)}
+                                    handlePagenation={this.handlePagenation.bind(this)}
+                                    offset={offset}
+                                    pages={
+                                        this.context.docList.length > 10?
+                                        Math.ceil(this.context.tempDocList.length / 10):
+                                        Math.floor(this.context.tempDocList.length / 10)
+                                        } />
+                            </ul>
+                        </div>
+                    ))
+                }
+            </GlobalContext.Consumer>
+
         )
     }
 }
-
+DocumentList.propTypes = {
+    docList: PropTypes.array
+}
 export default DocumentList

@@ -20,6 +20,8 @@
         flex-grow: 1;
         width: 50%;
         padding: 5px;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
       }
     }
     .doc-list-header {
@@ -29,12 +31,12 @@
         flex-grow: 1;
         width: 50%;
         padding: 5px;
-        span{
+        span {
           cursor: pointer;
           margin-right: 5px;
         }
-        .arrowup{
-          transform: rotate(180deg)
+        .arrowup {
+          transform: rotate(180deg);
         }
       }
       &:last-child {

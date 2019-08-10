@@ -36,20 +36,34 @@ const FilterDocs = (_docList) => {
  *  For DEC pass ('-') before property
  * 
  */
-const SortByProp = (property)=>{
+const SortByProp = (property) => {
     var sortOrder = 1;
-    if(property[0] === "-") {
+    if (property[0] === "-") {
         sortOrder = -1;
         property = property.substr(1);
     }
-    return function (a,b) {
+    return function (a, b) {
         var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
         return result * sortOrder;
     }
 }
+/**
+ * 
+ * @param {Array} docList the List needed to be filtered
+ * @param {Date} fromDate Start Date 
+ * @param {Date} toDate End Date
+ */
+const FilterByDate = (docList, fromDate, toDate) => {
+    return docList.filter((item) => {
+        var docDate = new Date(item.date)
+        return docDate.getTime() >= fromDate.getTime() &&
+            docDate.getTime() <= toDate.getTime();
+    });
+}
 
-export  {
+export {
     FormatDate,
     FilterDocs,
-    SortByProp
+    SortByProp,
+    FilterByDate
 }

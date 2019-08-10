@@ -8,7 +8,10 @@ const DocumentItem = (props)=> {
         props.tempDocList.map((doc) => {
             index++;
             return (
-                <li key={doc}>
+                /**
+                 * Here there is no Id forach document So I added name + date, It Works.
+                 */
+                <li key={doc.name+ doc.date}>
                     <div className={"doc-list-item " + (index % 2 === 0 ? "dark" : "light")}>
                         <div>{doc.name}</div>
                         <div>{FormatDate(doc.date)}</div>

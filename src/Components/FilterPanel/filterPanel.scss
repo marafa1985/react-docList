@@ -3,7 +3,6 @@
 .sticky-filter {
   margin-top: 25px;
   position: fixed;
-  z-index: -1;
   display: none;
   justify-content: center;
   align-items: center;
@@ -97,6 +96,9 @@
 @media screen and (max-width: 768px) {
   .sticky-filter {
     display: flex !important;
+  }
+  .filter-close{
+     display: none;
   }
   .doc-filter {
     margin: 0 !important;

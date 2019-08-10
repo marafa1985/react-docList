@@ -8,7 +8,7 @@ const Paging = (props) => {
                 <ul>
                     <li className="arrow"><div onClick={() => props.handlefirstLast('first')}>{"<<"}</div></li>
                     <li className="arrow"><div onClick={() => props.handlePagenation(-1)}>{"<"}</div></li>
-                    <li>{`${props.offset + 1} of ${props.pages + 1}`}</li>
+                    <li>{`${props.offset +1} of ${props.pages+1}`}</li>
                     <li className="arrow"><div onClick={() => props.handlePagenation(1)}>{">"}</div></li>
                     <li className="arrow"><div onClick={() => props.handlefirstLast('last')}>{">>"}</div></li>
                 </ul>
