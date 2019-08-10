@@ -1,78 +1,91 @@
 import React, { Component } from 'react';
-import { DocList } from '../../Mocks/Http';
+import Paging from './Paging';
+import DocumentHeader from './DocumentHeader';
+import DocumentItem from './DocumentItem';
+import { DocList } from '../../Helper/Http';
+import { FilterDocs, SortByProp } from '../../Helper/Helpers';
 import './documentList.scss';
-import Triangle from "../../img/Triangle.png";
+
 
 export class DocumentList extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            docList: []
+            docList: [],
+            tempDocList: [],
+            sortby: { column: 'date', asc: false },
+            limit: 10,
+            offset: 0,
+            pages: 0
         }
     }
-
-
     componentDidMount() {
-        let filter_docList = DocList.documents.filter(doc => {
-            let splitName = doc.name.split('.');
-            if (splitName[splitName.length - 1] === 'pdf' || splitName[splitName.length - 1] === 'docx') {
-                return doc;
-            }
-            return false;
+        let initList = FilterDocs(DocList).sort(SortByProp("-" + this.state.sortby.column));
+        let tempDocList = initList.slice(this.state.offset, this.state.limit);
+        this.setState({
+            docList: initList,
+            tempDocList: tempDocList,
+            pages: Math.ceil(initList.length / 10) - 1
         });
+    }
+    handleSort(colHeader) {
+        let { sortby, offset, limit } = this.state;
+
+        let initList = FilterDocs(DocList).sort(SortByProp((sortby.asc ? '-' : '') + colHeader));
+        let tempDocList = initList.slice(offset, limit);
 
         this.setState({
-            docList: filter_docList.slice(0, 10)
+            docList: initList,
+            tempDocList: tempDocList,
+            sortby: {
+                column: colHeader,
+                asc: !this.state.sortby.asc
+            }
         });
     }
-    formatDate = (docDate) => {
-        let date = new Date(docDate);
-        let day = date.getDate();
-        let monthIndex = date.getMonth();
-        let year = date.getFullYear();
-        return (day < 10 ? "0" + day : day) + '-' + ((monthIndex + 1) < 10 ? "0" + (monthIndex + 1) : (monthIndex + 1))  + '-' + year;
+    handlefirstLast = (position) => {
+        let arrOffset = 0
+        if (position === 'last') {
+            arrOffset = this.state.pages ;
+        }
+        let tempDocList = this.state.docList.slice(arrOffset* this.state.limit, (arrOffset* this.state.limit) + this.state.limit);
+
+        this.setState({
+            tempDocList: tempDocList,
+            offset: arrOffset
+        });
+    }
+    handlePagenation(setpage) {
+
+        let { offset, limit, pages } = this.state;
+        if ((offset + setpage) < 0 || offset + setpage > pages) {
+            setpage = 0;
+        }
+        let arrOffset = (offset + setpage) * limit
+        let arrSize = arrOffset + limit;
+
+        let tempDocList = this.state.docList.slice(arrOffset, arrSize);
+
+        this.setState({
+            tempDocList: tempDocList,
+            offset: (offset + setpage)
+        });
+
     }
 
-    drawDocList() {
-        const { docList } = this.state;
-        let index = 0;
-        return (
-            docList.map((doc) => {
-                index++;
-                return (
-                    <li key={doc}>
-                        <div className={"doc-list-item " + (index % 2 === 0 ? "dark" : "light")}>
-                            <div>{doc.name}</div>
-                            <div>{this.formatDate(doc.date)}</div>
-                        </div>
-                    </li>
-                )
-            })
-        )
-    }
     render() {
+        const { tempDocList, sortby, offset, pages } = this.state;
         return (
             <div className="doc-list" >
                 <ul>
-                    <li>
-                        <div className="doc-list-header">
-                            <div>Document Name</div>
-                            <div className="second">Date <img src={Triangle} alt="sort arrow" /></div>
-                        </div>
-                    </li>
-                    {this.state.docList && this.drawDocList()}
-                    <li>
-                        <div className="doc-list-footer">
-                            <ul>
-                                <li className="arrow"><div>{"<<"}</div></li>
-                                <li className="arrow"><div>{"<"}</div></li>
-                                <li>1 of 10</li>
-                                <li className="arrow"><div>{">"}</div></li>
-                                <li className="arrow"><div>{">>"}</div></li>
-                            </ul>
-                        </div>
-                    </li>
+                    <DocumentHeader sortby={sortby} handleSort={this.handleSort.bind(this)} />
+                    <DocumentItem tempDocList = {tempDocList}/>
+                    <Paging
+                        handlefirstLast={this.handlefirstLast.bind(this)}
+                        handlePagenation={this.handlePagenation.bind(this)}
+                        offset={offset}
+                        pages={pages} />
                 </ul>
             </div>
         )
