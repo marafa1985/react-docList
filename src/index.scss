@@ -1,0 +1,15 @@
+@import "color";
+
+*{
+  margin: 0px;
+  padding: 0;
+}
+body,
+html {
+  height: 100%;
+}
+body {
+  background-color: $white;
+  font-family: Roboto, sans-serif;
+  margin: 0;
+}

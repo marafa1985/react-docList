@@ -1,0 +1,54 @@
+@import "../../color";
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer {
+  @include flex-center;
+  height: 40px;
+  background: $primary;
+  color: $white;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: fixed;
+  .footerLsit {
+    @include flex-center;
+    flex-wrap: wrap;
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+
+    &:first-child {
+      span {
+        cursor: pointer;
+        &:not(:first-child):before {
+          content: " | ";
+          margin: 0 10px;
+        }
+      }
+    }
+
+    .speartor:before {
+      content: " | ";
+      margin: 0 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+    height: 60px;
+    .footerLsit {
+      flex-direction: column;
+      .speartor:before {
+        content: "  ";
+      }
+      .first {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
