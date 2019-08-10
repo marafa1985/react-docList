@@ -24,7 +24,7 @@ describe("DatePickerUI component", () => {
         };
         ReactDOM.render(<GlobalContextProvider value={Context}><FilterPanel /></GlobalContextProvider>, container);
         const fromDateInput = container.querySelector('#fromDate');
-        const toDateInput = container.querySelector('#fromDate');
+        const toDateInput = container.querySelector('#toDate');
 
         //check the inputes are not empty before clear
         expect(fromDateInput.value).not.toBe(null);

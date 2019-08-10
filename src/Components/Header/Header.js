@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { UserInfo } from '../../Mocks/Http';
+import PropTypes from "prop-types";
 import Logo from '../../img/Logo.png';
 import Avatar from '../../img/avatar.png';
 import './header.scss';
@@ -8,20 +8,14 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen: false,
-            userInfo: {}
+            isOpen: false
         };
     }
     togolMenu = () => {
         this.setState({ isOpen: !this.state.isOpen });
     }
-    componentDidMount() {
-        this.setState({
-            userInfo: UserInfo.body.User.profile
-        });
-    }
     render() {
-        const { firstName, lastName } = this.state.userInfo;
+        const { firstName, lastName } = this.props.profile;
         return (
             <nav>
                 <div className="logo">
@@ -43,7 +37,7 @@ class Header extends Component {
                     <li><span>{lastName}</span></li>
                 </ul>}
                 {/** EndOf Mobile Menu */}
-                
+
                 <div className="nav-links">
                     <div><span>Home</span></div>
                     <div className="active"><span>Documents</span></div>
@@ -53,13 +47,17 @@ class Header extends Component {
                         <img src={Avatar} alt="website logo" />
                     </div>
                     <div className="userInfor">
-                        <span>{firstName}</span>
-                        <span>{lastName}</span>
+                        <span id="firstName">{firstName}</span>
+                        <span id="lastName">{lastName}</span>
                     </div>
                 </div>
             </nav>
         );
     }
+}
+
+Header.propTypes = {
+    profile: PropTypes.object.isRequired
 }
 
 export default Header;
