@@ -42,9 +42,9 @@ export class DocumentList extends Component {
         let pages = Math.ceil(this.context.docList.length / 10) - 1;
 
         if (position === 'last') {
-            arrOffset =  this.context.docList.length > 10?
-            Math.ceil(this.context.tempDocList.length / 10):
-            Math.floor(this.context.tempDocList.length / 10);
+            arrOffset = this.context.docList.length > 10 ?
+                Math.ceil(this.context.tempDocList.length / 10) :
+                Math.floor(this.context.tempDocList.length / 10);
         }
 
         this.context.setPages(arrOffset * this.state.limit, (arrOffset * this.state.limit) + this.state.limit);
@@ -80,16 +80,22 @@ export class DocumentList extends Component {
                         <div className="doc-list" >
                             <ul>
                                 <DocumentHeader sortby={sortby} handleSort={this.handleSort.bind(this)} />
-                                <DocumentItem tempDocList={tempDocList} />
+                                {tempDocList.length > 0 ? (<DocumentItem tempDocList={tempDocList} />) :
+                                    <li className="no-doc">
+                                        <span>
+                                            No document available.
+                                    </span>
+                                    </li>
+                                }
                                 <Paging
                                     handlefirstLast={this.handlefirstLast.bind(this)}
                                     handlePagenation={this.handlePagenation.bind(this)}
                                     offset={offset}
                                     pages={
-                                        this.context.docList.length > 10?
-                                        Math.ceil(this.context.tempDocList.length / 10):
-                                        Math.floor(this.context.tempDocList.length / 10)
-                                        } />
+                                        this.context.docList.length > 10 ?
+                                            Math.ceil(this.context.tempDocList.length / 10) :
+                                            Math.floor(this.context.tempDocList.length / 10)
+                                    } />
                             </ul>
                         </div>
                     ))
