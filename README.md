@@ -1,21 +1,24 @@
 This Task was provided by CrossLend, bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Deployment: Ubuntu
+## Deployment: Ubuntu
 
-## Install Docker to Ubuntu
+### Install Docker to Ubuntu
 
 Please follow this Link to Install Docker in Ubuntu: https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
 Once you installed Docker to the ubuntu you can start copy the source code to machine as the following
 
-## Copy Surce Code
+### Copy Surce Code
 before you clone the package make sure that you installed git in ubuntu.
 
-- Using github: git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+- Using github: 
+```
 
+git clone https://github.com/marafa1985/react-docList.git
+```
 - Copy the code over storage like USB. (not recommended)
 
-## Deploy 
+### Deploy 
 After the souce code Avaliable on the server you can ru the following command:
 
 - Build Docker image to the ubuntu Machine
@@ -41,7 +44,7 @@ Wait untill finished.
 [http://localhost:3001/](http://localhost:3001/)
 
 
-### e2e
+## e2e
 
 For e2e Testing you can install [cypress.io](https://www.cypress.io/).
 
@@ -59,13 +62,13 @@ So far, there is no major ambiguity in the task, the only minor issue in the tas
 
 In the project directory, you can run:
 
-### `npm start`
+## `npm start`
 
-### `npm test`
+## `npm test`
 
-### `npm run build`
+## `npm run build`
 
-### `npm run eject`
+## `npm run eject`
 
  
 
