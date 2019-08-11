@@ -1,5 +1,7 @@
 This Task was provided by CrossLend, bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Deployment: Ubuntu
+
 ## Install Docker to Ubuntu
 
 Please follow this Link to Install Docker in Ubuntu: https://docs.docker.com/install/linux/docker-ce/ubuntu/
@@ -65,6 +67,6 @@ In the project directory, you can run:
 
 ### `npm run eject`
 
-### Deployment: Ubuntu 
+ 
 
 
