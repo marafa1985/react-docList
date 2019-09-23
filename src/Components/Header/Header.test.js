@@ -28,5 +28,4 @@ it("",()=>{
     expect(firstNameInput.innerHTML).toBe("Micheal");
     expect(lastNameInput.innerHTML).toBe("Mena");
   });
-
 });
