@@ -17,7 +17,7 @@ export const GlobalContext = React.createContext({
 export class GlobalContextProvider extends Component {
     constructor(props) {
         super(props)
-
+        
         this.state = {
             fromDate: null,
             toDate: null,

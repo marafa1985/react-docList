@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types'
 import { GlobalContext } from "../../Context/GlobalContext";
 import Paging from './Paging';
@@ -7,7 +7,7 @@ import DocumentItem from './DocumentItem';
 import './documentList.scss';
 
 
-export class DocumentList extends Component {
+export class DocumentList extends PureComponent {
 
     static contextType = GlobalContext;
 

@@ -7,12 +7,17 @@
     "react": "^16.8.6",
     "react-datepicker": "^2.8.0",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-styleguidist": "^9.1.14",
+    "requirejs-babel": "0.0.9",
+    "source-map-explorer": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "react-scripts test",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js"
   },

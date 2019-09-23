@@ -14,6 +14,9 @@ class Header extends Component {
     togolMenu = () => {
         this.setState({ isOpen: !this.state.isOpen });
     }
+    sum = (x, y) => {
+        return x + y;
+    }
     render() {
         const { firstName, lastName } = this.props.profile;
         return (

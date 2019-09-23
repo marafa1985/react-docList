@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import Header from './Header'
+import Header from './Header';
+import { create } from "react-test-renderer";
 
 describe("Header component", () => {
   let container;
@@ -13,8 +14,14 @@ describe("Header component", () => {
     document.body.removeChild(container);
     container = null;
   });
-
-  it("it shows the expected user profile firstName and LastName when it passed", () => {
+it("",()=>{
+  const component = create(<Header profile={{firstName:"Micheal", lastName:"Mena"}} />);
+    const instance = component.getInstance();
+    expect(instance.state.isOpen).toBe(false);
+    let result = instance.sum(5,6);
+    expect(result).toBe(11);
+});
+  it("it shows the expected user profile fifrstName and LastName when it passed", () => {
     ReactDOM.render(<Header profile={{firstName:"Micheal", lastName:"Mena"}}/>, container);
     const firstNameInput = container.querySelector('#firstName');
     const lastNameInput = container.querySelector('#lastName');
