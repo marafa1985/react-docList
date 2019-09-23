@@ -16,7 +16,7 @@ describe("DatePickerUI component", () => {
         document.body.removeChild(container);
         container = null;
     });
-
+    
     it("it shows that the dates inputes are empty after clear button clicked ", () => {
         const Context = {
             fromDate: new Date(),
