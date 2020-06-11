@@ -10,6 +10,7 @@ function App() {
     <GlobalContextProvider >
       <Header profile={UserInfo.body.User.profile} />
       <Main />
+    
       <Footer />
     </GlobalContextProvider>
   )
