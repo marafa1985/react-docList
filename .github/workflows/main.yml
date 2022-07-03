@@ -17,16 +17,7 @@ jobs:
         name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
-        with:
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       -       
         name: Set up Docker Buildx
         id: buildx
@@ -54,7 +45,6 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/doclist:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/doclist:buildcache,mode=max
       -
