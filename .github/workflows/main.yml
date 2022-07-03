@@ -10,8 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set env
+      - 
+        uses: actions/checkout@v2
+      - 
+        name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       -       
         name: Set up Docker Buildx
@@ -39,7 +41,7 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ env.RELEASE_VERSION }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/doclist:${{ env.RELEASE_VERSION }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/doclist:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/doclist:buildcache,mode=max
       -
