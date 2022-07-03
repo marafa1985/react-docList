@@ -68,8 +68,4 @@ export class GlobalContextProvider extends Component {
     }
 }
 
-export default {
-    GlobalContext,
-    GlobalContextProvider
-}
 
