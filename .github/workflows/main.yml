@@ -13,6 +13,8 @@ jobs:
       - 
         name: Checkout
         uses: actions/checkout@v2
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       -       
         name: Set up Docker Buildx
         id: buildx
@@ -39,7 +41,7 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/doclist:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/doclist:${{ steps.vars.outputs.tag }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/doclist:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/doclist:buildcache,mode=max
       -
